@@ -31,7 +31,8 @@ const Slug: React.FC = () => {
             ogDescription: string,
             ogImage: { url: string },
             ogTitle: string,
-            ogUrl: string
+            ogUrl: string,
+            ogSiteName: string
         },
         isLoading: boolean
     } = trpc.url.metadata.useQuery({
@@ -54,7 +55,7 @@ const Slug: React.FC = () => {
 
     useEffect(() => {
         if (timer < 1 && !urlIsMalicious) {
-            router.push(url as string)
+            // router.push(url as string)
         }
     }, [timer])
 
@@ -95,7 +96,7 @@ const Slug: React.FC = () => {
                     }
                 </Suspense>
                 <h1 className="font-bold text-4xl text-gray-600">
-                    {metadata.ogTitle ?? 'No title provided'}
+                    {metadata.ogSiteName ?? metadata.ogTitle ?? 'No title provided'}
                 </h1>
                 <p className="text-gray-600 mb-4">
                     {metadata.ogDescription ?? 'No description provided'}
@@ -105,7 +106,7 @@ const Slug: React.FC = () => {
                     ?
                         <img
                             src={metadata.favicon} 
-                            alt={`${metadata.ogTitle} favicon`} 
+                            alt={`${metadata.ogSiteName || metadata.ogTitle} favicon`} 
                             className="object-contain mt-1 max-h-4"
                         />
                     : 
