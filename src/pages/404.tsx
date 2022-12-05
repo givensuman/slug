@@ -1,12 +1,18 @@
 import Link from 'next/link'
+import Head from 'next/head'
 import React from 'react'
 
 import Button from '../components/Button'
 
 const NotFound: React.FC = () => {
-    return (
-        <main className="min-h-screen w-full flex flex-col items-center justify-center space-y-4">
-            <h1 className="text-slate-200 text-6xl font-bold">
+    return (<>
+
+        <Head>
+            <title>{`slug > 404`}</title>
+        </Head>
+
+        <main className="min-h-screen w-full flex flex-col items-center justify-center space-y-4 p-4">
+            <h1 className="text-slate-200 text-4xl font-bold">
                 You look a little lost...
             </h1>
             <h3 className="text-slate-300 text-2xl">
@@ -18,7 +24,8 @@ const NotFound: React.FC = () => {
                 </Button>
             </Link>
         </main>
-    )
+        
+    </>)
 }
 
 export default NotFound
