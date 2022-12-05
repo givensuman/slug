@@ -4,9 +4,10 @@ import { useRef } from 'react'
 
 import Spinner from '../components/Spinner'
 import Button from '../components/Button'
-import { FaGlobe } from 'react-icons/fa'
+import { FaExternalLinkSquareAlt } from 'react-icons/fa'
 
 import { trpc } from '../utils/trpc'
+import Head from 'next/head'
 
 const Slug: React.FC = () => {
 
@@ -17,7 +18,8 @@ const Slug: React.FC = () => {
         onError: err => {
             console.error(err)
             router.push('/404')
-        }
+        },
+        enabled: !!slug
     })
 
     const { data: urlValidation, isLoading: validationIsLoading } = trpc.url.check.useQuery({
@@ -55,7 +57,7 @@ const Slug: React.FC = () => {
 
     useEffect(() => {
         if (timer < 1 && !urlIsMalicious) {
-            // router.push(url as string)
+            router.push(url as string)
         }
     }, [timer])
 
@@ -72,51 +74,37 @@ const Slug: React.FC = () => {
         </div>
     )
 
-    return (
+    return (<>
+
+        <Head>
+            <title>{`slug > ${url}`}</title>
+        </Head>
+
         <main className="min-h-screen flex flex-col items-center justify-center">
 
             {metadata && <>
+
             {!urlIsMalicious && <h1 className="text-4xl text-slate-300 mb-12">Redirecting you in {timer}</h1>}
-            <div
-                className="bg-slate-200 rounded-md p-4 shadow-lg cursor-pointer max-w-sm"
-                onClick={() => router.push(url as string)}
-            >
-                <Suspense fallback={<>
-                    <div className="w-full h-64 mb-4 bg-slate-400 rounded-md animate-pulse" />
-                </>}>
-                    {metadata.ogImage?.url 
-                    ?
-                        <img 
-                            src={metadata?.ogImage.url}
-                            alt={`${metadata.ogTitle} banner`}
-                            className="w-full object-cover mb-4 h-64 rounded-md"
-                        />
-                    : 
-                        <div className="w-full h-64 mb-4 bg-slate-400 rounded-md animate-pulse" />
-                    }
-                </Suspense>
-                <h1 className="font-bold text-4xl text-gray-600">
-                    {metadata.ogSiteName ?? metadata.ogTitle ?? 'No title provided'}
-                </h1>
-                <p className="text-gray-600 mb-4">
-                    {metadata.ogDescription ?? 'No description provided'}
-                </p>
-                <h1 className="text-gray-500 text-md flex flex-row space-x-2 items-center">
-                    {metadata.favicon 
-                    ?
-                        <img
-                            src={metadata.favicon} 
-                            alt={`${metadata.ogSiteName || metadata.ogTitle} favicon`} 
-                            className="object-contain mt-1 max-h-4"
-                        />
-                    : 
-                        <FaGlobe className="mt-1 max-h-4" />
-                    }
+            
+            <div className="p-1.5 rounded-lg bg-gradient-to-br from-fuchsia-300 to-purple-500">
+                <div
+                    className="bg-slate-200 rounded-md p-4 shadow-lg cursor-pointer max-w-sm relative"
+                    onClick={() => router.push(url as string)}
+                >
+                    <FaExternalLinkSquareAlt className="absolute right-2 top-2 text-3xl text-slate-500" />
+                    <h1 className="font-bold text-4xl text-gray-600 mb-4 mr-4">
+                        {metadata.ogSiteName ?? metadata.ogTitle ?? 'No title provided'}
+                    </h1>
+                    <p className="text-gray-600 mb-4">
+                        {metadata.ogDescription ?? 'No description provided'}
+                    </p>
+                    <h1 className="text-gray-500 text-md flex flex-row space-x-2 items-center">
                     <a href={url}>
                         {url}
                     </a>
-                </h1>
+                    </h1>
                 </div>
+            </div>
             </>}
 
             {urlIsMalicious &&
@@ -126,7 +114,8 @@ const Slug: React.FC = () => {
             }
 
         </main>
-    )
+
+    </>)
 }
 
 export default Slug
