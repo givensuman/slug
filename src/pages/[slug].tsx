@@ -56,7 +56,7 @@ const Slug: React.FC = () => {
     }, [pageIsLoading])
 
     useEffect(() => {
-        if (timer < 1 && !urlIsMalicious) {
+        if (timer < 1 && !urlIsMalicious && !pageIsLoading) {
             router.push(url as string)
         }
     }, [timer])
@@ -67,7 +67,7 @@ const Slug: React.FC = () => {
         </div>
     )
 
-    if (pageIsLoading && (!metadata || !urlValidation)) return (
+    if (!pageIsLoading && (!metadata || !urlValidation)) return (
         <div className="min-h-screen flex flex-col items-center justify-center">
             <h1 className="text-slate-300 text-3xl mb-4">No site data found</h1>
             <Button>Continue to {url}</Button>
