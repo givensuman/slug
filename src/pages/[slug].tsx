@@ -24,7 +24,10 @@ const Slug: React.FC = () => {
 
     const { data: urlValidation, isLoading: validationIsLoading } = trpc.url.check.useQuery({
         url: url as string
-    }, { enabled: !!url })
+    }, { 
+        enabled: !!url,
+        retry: false
+     })
     const urlIsMalicious: boolean = (urlValidation && Object.keys(urlValidation).length > 0)
 
     const { data: metadata, isLoading: metadataIsLoading }: {
@@ -39,9 +42,13 @@ const Slug: React.FC = () => {
         isLoading: boolean
     } = trpc.url.metadata.useQuery({
         url: url as string
-    }, { enabled: !!url })
+    }, { 
+        enabled: !!url,
+        retry: false
+    })
 
     const pageIsLoading: boolean = (urlDataIsLoading || validationIsLoading || metadataIsLoading)
+    const pageLackedData: boolean = (!metadata || !urlValidation)
 
     const [ timer, setTimer ] = useState(10)
     const countdownRef = useRef<any>(null)
@@ -56,7 +63,7 @@ const Slug: React.FC = () => {
     }, [pageIsLoading])
 
     useEffect(() => {
-        if (timer < 1 && !urlIsMalicious && !pageIsLoading) {
+        if (timer < 1 && !urlIsMalicious && !pageIsLoading && !pageLackedData) {
             router.push(url as string)
         }
     }, [timer])
@@ -67,7 +74,7 @@ const Slug: React.FC = () => {
         </div>
     )
 
-    if (!pageIsLoading && (!metadata || !urlValidation)) return (
+    if (!pageIsLoading && pageLackedData) return (
         <div className="min-h-screen flex flex-col items-center justify-center">
             <h1 className="text-slate-300 text-3xl mb-4">No site data found</h1>
             <Button>Continue to {url}</Button>
