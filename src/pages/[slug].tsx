@@ -99,7 +99,7 @@ const Slug: React.FC = () => {
                     onClick={() => router.push(url as string)}
                 >
                     <FaExternalLinkSquareAlt className="absolute right-2 top-2 text-3xl text-slate-500" />
-                    <h1 className="font-bold text-4xl text-gray-600 mb-4 mr-4">
+                    <h1 className="font-bold text-4xl text-gray-600 mb-4 mr-8">
                         {metadata.ogSiteName ?? metadata.ogTitle ?? 'No title provided'}
                     </h1>
                     <p className="text-gray-600 mb-4">
