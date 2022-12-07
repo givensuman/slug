@@ -74,7 +74,7 @@ const Home: NextPage = () => {
                 tabIndex={2}
                 style={{
                   opacity: inputIsValidUrl ? '1' : '0',
-                  userSelect: inputIsValidUrl ? 'auto' : 'none'
+                  pointerEvents: inputIsValidUrl ? 'auto' : 'none'
                 }}
               >   
                 {isLoading ? <Spinner /> : 'Shorten'}
