@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
-import React, { useState, useEffect, Suspense } from 'react'
+import Head from 'next/head'
+import React, { useState, useEffect } from 'react'
 import { useRef } from 'react'
 
 import Spinner from '../components/Spinner'
@@ -7,7 +8,6 @@ import Button from '../components/Button'
 import { FaExternalLinkSquareAlt } from 'react-icons/fa'
 
 import { trpc } from '../utils/trpc'
-import Head from 'next/head'
 
 const Slug: React.FC = () => {
 
