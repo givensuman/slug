@@ -9,6 +9,7 @@ import { FaRegCopy, FaAngleRight } from 'react-icons/fa'
 
 import { trpc } from "../utils/trpc";
 import useCopyToClipboard from "../hooks/useCopyToClipboard";
+import { env } from "../env/client.mjs";
 
 const Home: NextPage = () => {
   const [ input, setInput ] = useState("")
@@ -41,7 +42,7 @@ const Home: NextPage = () => {
   useEffect(() => setSlug(data || null), [data])
 
   const [ _, setCopiedText ] = useCopyToClipboard()
-  const copySlugToClipboard = () => setCopiedText(slug as string)
+  const copySlugToClipboard = () => setCopiedText(`${env.NEXT_PUBLIC_DOMAIN_URL}/${slug}`)
 
   return (
     <>
@@ -67,6 +68,7 @@ const Home: NextPage = () => {
               onChange={handleInputChange}
               placeholder="www.example.com"
             />
+            {inputIsValidUrl && 
               <Button
                 disabled={!inputIsValidUrl}
                 onClick={handleSubmit}
@@ -77,6 +79,7 @@ const Home: NextPage = () => {
               >   
                 {isLoading ? <Spinner /> : 'Shorten'}
               </Button>
+            }
           </div>
         :
           // Copy, visit, and start over buttons
