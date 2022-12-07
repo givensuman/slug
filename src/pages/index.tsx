@@ -68,18 +68,17 @@ const Home: NextPage = () => {
               onChange={handleInputChange}
               placeholder="www.example.com"
             />
-            {inputIsValidUrl && 
               <Button
                 disabled={!inputIsValidUrl}
                 onClick={handleSubmit}
                 tabIndex={2}
                 style={{
-                  opacity: inputIsValidUrl ? '1' : '0'
+                  opacity: inputIsValidUrl ? '1' : '0',
+                  userSelect: inputIsValidUrl ? 'auto' : 'none'
                 }}
               >   
                 {isLoading ? <Spinner /> : 'Shorten'}
               </Button>
-            }
           </div>
         :
           // Copy, visit, and start over buttons
